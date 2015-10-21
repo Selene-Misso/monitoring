@@ -4,7 +4,7 @@
 : 値を書き込むファイル
 file=io.dat
 : モニタするデバイス
-DeviceName=sda
+DeviceName=xvda
 
 # cpu.datが存在するかチェック
 if [ -e $file ]; then
