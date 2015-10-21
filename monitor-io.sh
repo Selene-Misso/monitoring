@@ -11,7 +11,7 @@ if [ -e $file ]; then
     : 何もしない
 else
 	: 行名を追加
-    echo "TimeStamp(UTC) kB_read/s kB_wrtn/s kB_read kB_wrtn" > $file
+    echo "Timestamp.UTC kB_read.s kB_wrtn.s kB_read kB_wrtn" > $file
 fi
 
 
