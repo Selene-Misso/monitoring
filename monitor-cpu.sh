@@ -9,7 +9,7 @@ if [ -e $file ]; then
     : 何もしない
 else
 	: 行名を追加
-    echo "Timestamp(UTC) Cpu-us(%) Cpu-sys(%)" > $file
+    echo "Timestamp.UTC Cpu_us.percent Cpu_sys.percent" > $file
 fi
 
 : topを1秒間隔で実行
