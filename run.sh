@@ -3,3 +3,4 @@
 
 ./monitor-io.sh &
 ./monitor-cpu.sh &
+./monitor-net.sh &
