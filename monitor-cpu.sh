@@ -16,6 +16,6 @@ fi
 ## mpstat版
 #cpu=`mpstat |awk '/all/ {print strftime("%Y-%m-%dT%H:%M:%SZ",systime(),1),$3, $5}'|tee cpu.dat`
 ## top版
-top -b -d 1| awk '/Cpu/ {print strftime("%Y-%m-%dT%H:%M:%SZ",systime(),1),$2, $4}{system("")}' >> $file
+top -b -d 1| awk -F'[: ,]*' '/Cpu/ {print strftime("%Y-%m-%dT%H:%M:%SZ",systime(),1),$2, $4}{system("")}' >> $file
 
 
