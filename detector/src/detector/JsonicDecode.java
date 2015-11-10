@@ -22,7 +22,7 @@ public class JsonicDecode {
 	 * JSONファイルを1行ずつ読み込む
 	 */
 	public void readJsonFile(){
-		String name = "/Users/mishiro/Git/aws/monitoring/2015-10-26T03:03:32Z/WEB/net.dat";
+		String name = "../../aws/monitoring/2015-10-26T03:03:32Z/WEB/net.dat";
 		try {
 			File file = new File(name);
 			BufferedReader br = new BufferedReader(new FileReader(file));
@@ -59,12 +59,14 @@ public class JsonicDecode {
 		NetstatJson netstat = JSON.decode(str.replace(".UTC", ""), NetstatJson.class);
 		
 		boolean result = detector.isEndOfEstablished(netstat.getESTABLISHED());
-		System.out.print("Timestamp: " + netstat.getTimestamp());
+/*		System.out.print("Timestamp: " + netstat.getTimestamp());
 		System.out.println(", ESTABLISHED: " + netstat.getESTABLISHED() + ", "+ result);
-/*		System.out.println("FIN_WAIT1: "+ netstat.getFIN_WAIT1());
+		System.out.println("FIN_WAIT1: "+ netstat.getFIN_WAIT1());
 		System.out.println("FIN_WAIT2: "+ netstat.getFIN_WAIT2());
 		System.out.println("TIME_WAIT: "+ netstat.getTIME_WAIT());
 		System.out.println("LAST_ACK: "+ netstat.getLAST_ACK());
 		System.out.println("SYN_RECV: "+ netstat.getSYN_RECV());*/
+		// CSV形式で出力する
+		System.out.println("\"" + netstat.getTimestamp() +"\"," + netstat.getESTABLISHED() + "," + result);
 	}
 }
