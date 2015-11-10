@@ -59,6 +59,7 @@ public class JsonicDecode {
 		NetstatJson netstat = JSON.decode(str.replace(".UTC", ""), NetstatJson.class);
 		
 		boolean result = detector.isEndOfEstablished(netstat.getESTABLISHED());
+		boolean result_time_wait = detector.isLongTimeWait(netstat.getTIME_WAIT());
 /*		System.out.print("Timestamp: " + netstat.getTimestamp());
 		System.out.println(", ESTABLISHED: " + netstat.getESTABLISHED() + ", "+ result);
 		System.out.println("FIN_WAIT1: "+ netstat.getFIN_WAIT1());
@@ -67,6 +68,7 @@ public class JsonicDecode {
 		System.out.println("LAST_ACK: "+ netstat.getLAST_ACK());
 		System.out.println("SYN_RECV: "+ netstat.getSYN_RECV());*/
 		// CSV形式で出力する
-		System.out.println("\"" + netstat.getTimestamp() +"\"," + netstat.getESTABLISHED() + "," + result);
+		System.out.println("\"" + netstat.getTimestamp() +"\"," + netstat.getESTABLISHED() + "," + result + 
+				"," + netstat.getTIME_WAIT() + "," + result_time_wait);
 	}
 }

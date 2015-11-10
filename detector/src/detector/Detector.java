@@ -1,12 +1,19 @@
 package detector;
 
 public class Detector {
-	// 移動平均で使用する秒数
+	// [ESTABLISHED] 移動平均で使用する秒数
 	int interval = 3;
-	// 検出閾値
+	// [ESTABLISHED] 検出閾値
 	int threshold = -30;
-	// バッファ
+	// [ESTABLISHED] バッファ
 	int array[] = new int[interval];
+	
+	// [TIME_WAIT] 判定結果を保持する秒数
+	int interval_time_waits = 60;
+	// [TIME_WAIT] 閾値
+	int max_time_waits = 4000;
+	// [TIME_WAIT] バッファ
+	int array_time_waits[] = new int[interval_time_waits];
 
 	/**
 	 * ESTABLISHEDをみて終了時を検出する関数．
@@ -18,7 +25,7 @@ public class Detector {
 		double last = calcAverage(array);
 		
 		// 移動平均
-		array = calcMovingAverage(array, input, interval);
+		array = moveArray(array, input, interval);
 		// 平均
 		double average = calcAverage(array);
 		
@@ -37,7 +44,7 @@ public class Detector {
 	 * @param interval バッファの数
 	 * @return 新しいバッファ(配列)
 	 */
-	public int[] calcMovingAverage(int[] array, int push, int interval){
+	public int[] moveArray(int[] array, int push, int interval){
 		// 配列を一つずつずらす
 		for(int i = 0; i < (interval - 1); i++){
 			array[i] = array[i+1];
@@ -62,4 +69,40 @@ public class Detector {
 		return ((double)sum) / array.length;
 	}
 
+	/**
+	 * TIME_WAITが閾値を超えたかを判定する
+	 * @param num TIME_WAITの値
+	 * @return 閾値を超えたらTrue,超えなかったらFalse
+	 */
+	public boolean isSaturated(int num){
+		if(num >= max_time_waits)
+			return true;
+		else
+			return false;
+	}
+	
+	/**
+	 * TIME_WAITが指定期間長い状態が続き，停止状態になりそうかを判定する
+	 * @param input 新しいTIME_WAIT値
+	 * @return 停止状態ならtrue, それ以外ならfalse
+	 */
+	public boolean isLongTimeWait(int input){
+		// 判定
+		int x = 0;
+		if(isSaturated(input)) x = 1;
+		
+		// 配列にプッシュ
+		array_time_waits = moveArray(array_time_waits, x, interval_time_waits);
+		
+		// 配列を平均
+		double ave = calcAverage(array_time_waits);
+		
+		System.out.print(input+","+ave + ":");
+		
+		if(ave >= 0.9)
+			return true;
+		else
+			return false;
+	}
+	
 }
