@@ -22,8 +22,8 @@ COMMAND="/usr/bin/mysqladmin -u root -p3641ec2 extended-status"
 
 if [ -S $SOCKET ];then
   while true; do 
-       $COMMAND | awk '{print $2,$4}'| egrep -v '(^ |Variale_name)'| \
-       awk 'BEGIN  {print "{\"Timestamp.UTC\":",strftime("\"%Y-%m-%dT%H:%M:%SZ\"",systime(),1),","} 
+       $COMMAND | awk '{print $2,$4}'| egrep -v '(^ |Variale_name)' \
+       | awk 'BEGIN  {print "{\"Timestamp.UTC\":",strftime("\"%Y-%m-%dT%H:%M:%SZ\"",systime(),1),","} \
        $2+0==$2 {printf ("\"%s\": %d,", $1, $2);} \
        $2+0!=$2 {printf ("\"%s\": \"%s\",", $1, $2);} \
        END{printf ("\b}\n,")} {system("")}' |col -b >> $file;
