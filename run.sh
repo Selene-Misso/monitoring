@@ -4,6 +4,7 @@
 ./monitor-io.sh &
 ./monitor-cpu.sh &
 ./monitor-net.sh &
+./monitor-throughput.sh &
 
 # MySQL が存在するか?
 mysql=/usr/bin/mysqladmin
