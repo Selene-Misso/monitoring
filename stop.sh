@@ -22,3 +22,11 @@ do
 	killpstree $parent_pid
 done
 
+kill_family_list=`ps ax | grep sar.out | grep -v 'grep' | awk '{ print $1 }'`
+for parent_pid in $kill_family_list
+do
+	#echo "=== start:family killing target=[$parent_pid] ==="
+	pstree -pha $parent_pid #抹殺する家の家族構成を表示
+
+	killpstree $parent_pid
+done
